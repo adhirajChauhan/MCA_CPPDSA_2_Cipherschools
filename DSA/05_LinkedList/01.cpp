@@ -86,6 +86,37 @@ void reverse(Node* &head){
     head = prev;
 }
 
+Node* kReverse(Node* head, int k){
+    if(head==NULL) return NULL;
+    Node* prev = NULL;
+    Node* curr = head;
+    Node* next = NULL;
+    int count = 0;
+    while(curr!= NULL && count < k){
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr= next;
+        count++;
+    }
+    if(next!=NULL) head->next = kReverse(next,k);
+
+    return prev;
+}
+
+Node* findMiddle(Node* head){
+    if(head==NULL) return NULL;
+
+    Node* slow = head;
+    Node* fast = head;
+
+    while(fast != NULL && fast->next != NULL){
+        slow = slow -> next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+
 int main(){
 
     Node* head = NULL;

@@ -74,6 +74,65 @@ void deletion(Node* &head, int pos){
     delete toDelete;
 }
 
+bool isCircular(Node* head){
+    if(head==NULL) return true;
+    Node* temp = head;
+    while(temp!= NULL && temp != head){
+        temp= temp->next;
+        if(temp == head) return true;
+    }
+
+    return false;
+}
+
+Node* floydDetectLoop(Node* head){
+    if(head==NULL) return NULL;
+
+    //Create two pointers fast and slow and initiliza them on head
+    Node* slow = head;
+    Node* fast = head;
+
+    //untill fast and slow are not equal to NULL, we keep moving slow by one step and fast by two step
+    while(fast!=NULL && slow!=NULL){
+        slow = slow->next;
+        if(fast->next!=NULL)fast = fast->next->next;
+        if(fast == slow) return slow;
+    }
+    return NULL;
+    //if slow == fast return slow
+    //if not then return NULL
+}
+
+Node* getStartingNode(Node* head){
+    if(head == NULL) return NULL;
+    Node* intersection = floydDetectLoop(head);
+    //initilize slow on head
+    Node* slow = head;
+    //while slow is not equal to intersection
+
+    while(slow != intersection){
+        slow = slow->next;
+        intersection = intersection->next;
+    }
+    return slow;
+    //move slow by one and intersection by one
+    //return ?
+
+}
+
+void removeLoop(Node* head){
+    if(head==NULL) return;
+    Node* startOfLoop = getStartingNode(head);
+    Node* temp = startOfLoop;
+    //iterate temp until i reach node whose next is pointing at startOfLoop
+    while(temp->next != startOfLoop){
+        temp = temp->next;
+    }
+    temp->next = NULL;
+
+    //point last node at NULL
+}
+
 void display(Node *head){
     Node* temp = head;
     do{
